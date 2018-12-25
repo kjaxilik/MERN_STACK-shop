@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import { getUserById } from '../actions/userActions.js';
 import InputField from '../components/common/InputField';
 
+import { edit } from '../actions/userActions';
+
 import Avatar from './img/avatars/avatar.jpg';
 import Bgr from './img/bgrs/bgr.jpg';
 
@@ -13,9 +15,9 @@ import './userContainer.css';
 class UserContainer extends Component {
   constructor(props) {
     super(props);
-    const { user } = this.props;
+
     this.state = {
-      name: user.name,
+      name: '',
       address: '',
       phone: '',
       email: '',
@@ -33,21 +35,14 @@ class UserContainer extends Component {
     this.formSubmitted = this.formSubmitted.bind(this);
     //this.userRow = this.userRow.bind(this);
   }
-  componentWillReceiveProps(newProps) {
-    if (newProps.errors) {
+
+  componentWillReceiveProps(nextProps) {
+    // Any time props.name changes, update state.
+    if (nextProps.name !== this.props.name) {
       this.setState({
-        errors: newProps.errors
+        name: nextProps.name
       });
     }
-    this.setState({
-      name: newProps.name,
-      address: newProps.address,
-      phone: newProps.phone,
-      email: newProps.email,
-      birthDate: newProps.birthDate,
-      rating: newProps.rating,
-      photo: newProps.photo
-    });
   }
 
   inputChanged(event) {
@@ -58,18 +53,17 @@ class UserContainer extends Component {
     event.preventDefault();
 
     var userData = {
-      login: this.state.login,
-      password: this.state.password,
-      name: this.state.name,
-      address: this.state.address,
+      name: this.state.name
+      /*address: this.state.address,
       phone: this.state.phone,
       email: this.state.email,
       birthDate: this.state.birthDate,
       rating: this.state.rating,
-      photo: this.state.photo
+      photo: this.state.photo*/
     };
 
-    this.props.send(userData, this.props.history);
+    this.props.edit(userData, this.props.history);
+    console.log(this.state.errors);
   }
 
   onEditClicked(event) {
@@ -81,7 +75,6 @@ class UserContainer extends Component {
   render() {
     const { user } = this.props.user;
     const { userEdit } = this.state;
-    //console.log(user);
 
     const userEditContainer = (
       <div className="userInner userEdit">
@@ -90,11 +83,16 @@ class UserContainer extends Component {
             placeholder="Name"
             type="text"
             name="name"
-            //value={user.name} // для связки value со стейтом чтоб писалось в инпуте
+            value={this.state.name} // для связки value со стейтом чтоб писалось в инпуте
             onChange={this.inputChanged}
             error={this.state.errors.name}
-            defaultValue={user.name}
           />
+          <button onClick={this.onEditClicked} className="btn btn-primary">
+            Cancel
+          </button>
+          <button onClick={this.formSubmitted} className="btn btn-save">
+            Save
+          </button>
         </form>
       </div>
     );
@@ -161,10 +159,11 @@ UserContainer.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  edit: PropTypes.func.isRequired,
   user: state.user
 });
 
 export default connect(
   mapStateToProps,
-  { getUserById }
+  { getUserById, edit }
 )(UserContainer);
