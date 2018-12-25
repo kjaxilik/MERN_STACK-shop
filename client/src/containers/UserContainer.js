@@ -13,9 +13,9 @@ import './userContainer.css';
 class UserContainer extends Component {
   constructor(props) {
     super(props);
-
+    const { user } = this.props;
     this.state = {
-      name: this.props.password,
+      name: user.name,
       address: '',
       phone: '',
       email: '',
@@ -28,21 +28,54 @@ class UserContainer extends Component {
       userEdit: false,
       errors: {}
     };
-    this.userEditClick = this.userEditClick.bind(this);
+    this.onEditClicked = this.onEditClicked.bind(this);
     this.inputChanged = this.inputChanged.bind(this);
+    this.formSubmitted = this.formSubmitted.bind(this);
     //this.userRow = this.userRow.bind(this);
-    //this.formSubmitted = this.formSubmitted.bind(this);
   }
-
-  userEditClick(event) {
-    event.preventDefault();
-
-    this.setState({ userEdit: true });
-    console.log(this.state.userEdit);
+  componentWillReceiveProps(newProps) {
+    if (newProps.errors) {
+      this.setState({
+        errors: newProps.errors
+      });
+    }
+    this.setState({
+      name: newProps.name,
+      address: newProps.address,
+      phone: newProps.phone,
+      email: newProps.email,
+      birthDate: newProps.birthDate,
+      rating: newProps.rating,
+      photo: newProps.photo
+    });
   }
 
   inputChanged(event) {
     this.setState({ [event.target.name]: event.target.value });
+  }
+
+  formSubmitted(event) {
+    event.preventDefault();
+
+    var userData = {
+      login: this.state.login,
+      password: this.state.password,
+      name: this.state.name,
+      address: this.state.address,
+      phone: this.state.phone,
+      email: this.state.email,
+      birthDate: this.state.birthDate,
+      rating: this.state.rating,
+      photo: this.state.photo
+    };
+
+    this.props.send(userData, this.props.history);
+  }
+
+  onEditClicked(event) {
+    event.preventDefault();
+
+    this.setState({ userEdit: !this.state.userEdit });
   }
 
   render() {
@@ -52,14 +85,17 @@ class UserContainer extends Component {
 
     const userEditContainer = (
       <div className="userInner userEdit">
-        <InputField
-          placeholder="Name"
-          type="text"
-          name="name"
-          value={user.name} // для связки value со стейтом чтоб писалось в инпуте
-          onChange={this.inputChanged}
-          error={this.state.errors.name}
-        />
+        <form onSubmit={this.formSubmitted}>
+          <InputField
+            placeholder="Name"
+            type="text"
+            name="name"
+            //value={user.name} // для связки value со стейтом чтоб писалось в инпуте
+            onChange={this.inputChanged}
+            error={this.state.errors.name}
+            defaultValue={user.name}
+          />
+        </form>
       </div>
     );
 
@@ -71,7 +107,7 @@ class UserContainer extends Component {
         <h4>email: {user.email}</h4>
         <h4>Birth Date: {user.birthDate}</h4>
         <h4>Rating: {user.rating}</h4>
-        <button onClick={this.userEditClick} className="btn btn-primary">
+        <button onClick={this.onEditClicked} className="btn btn-primary">
           Edit
         </button>
       </div>
