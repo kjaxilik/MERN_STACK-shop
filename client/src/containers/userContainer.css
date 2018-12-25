@@ -1,0 +1,92 @@
+* {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 16px;
+}
+.userContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  box-sizing: border-box;
+  padding: 0 150px;
+  align-items: center;
+}
+.userContainer div.userBgrCont {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+.userContainer div img.userBgr {
+  margin-bottom: 50px;
+  width: 100%;
+  height: auto;
+  /*opacity: 0.9;*/
+}
+.userContainer div div.userInfo {
+  position: absolute;
+  top: 230px;
+  width: calc(100% - 300px);
+  height: 60px;
+  background: rgb(0, 0, 0);
+  opacity: 0.7;
+  border: 1px solid #bbbaba;
+  z-index: 200;
+}
+
+.userContainer div.avaRound {
+  position: absolute;
+  left: 200px;
+  top: 180px;
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  z-index: 400;
+  border: 1px solid #fffdfd;
+  overflow: hidden;
+}
+.userContainer div.userInner{
+  position: relative;
+  margin: 10px 0;
+  padding: 20px;
+  border: 1px solid rgb(126, 132, 134);
+  background: rgb(251, 254, 255);
+  width: 100%;
+  text-align: end;
+}
+.userContainer div.userEdit {
+  background: rgb(167, 157, 157);
+  width: 50%;
+}
+.userContainer div img.ava {
+  width: 200px;
+  height: auto;
+}
+.userContainer div ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  list-style: none;
+  padding-left: 0;
+  height: 100%;
+  margin: 0;
+  align-items: center;
+}
+.userContainer div ul li {
+  position: relative;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 18px;
+  z-index: 5000;
+  padding: 0 15px;
+}
+.userContainer div ul li ul {
+  flex-direction: column;
+  align-items: center;
+}
+
+.userContainer> div img:hover {
+  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
