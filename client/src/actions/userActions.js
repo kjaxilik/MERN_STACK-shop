@@ -99,11 +99,16 @@ export const getUserById = id => dispatch => {
 
 export const edit = (data, history) => dispatch => {
   axios
-    .post('/api/user/edit', data)
+
+    .put('/api/user/edit', data)
     .then(res => {
       dispatch({
         type: 'EDIT_USER',
         user: res.data
+      });
+      dispatch({
+        type: 'GET_ERRORS',
+        errors: {}
       });
 
       history.push('/profile');
@@ -113,5 +118,6 @@ export const edit = (data, history) => dispatch => {
         type: 'GET_ERRORS',
         errors: err.response.data
       });
+      console.log('errors from server: ' + err.response.data);
     });
 };

@@ -17,7 +17,7 @@ class UserContainer extends Component {
     super(props);
 
     this.state = {
-      name: '',
+      name: 'Rfqhfn',
       address: '',
       phone: '',
       email: '',
@@ -35,7 +35,7 @@ class UserContainer extends Component {
     this.formSubmitted = this.formSubmitted.bind(this);
     //this.userRow = this.userRow.bind(this);
   }
-
+  /*
   componentWillReceiveProps(nextProps) {
     // Any time props.name changes, update state.
     if (nextProps.name !== this.props.name) {
@@ -43,6 +43,19 @@ class UserContainer extends Component {
         name: nextProps.name
       });
     }
+  }*/
+
+  static getDerivedStateFromProps(props, state) {
+    const { user } = props;
+    const { userName } = state;
+
+    if (user && userName === null) {
+      return {
+        userName: user.name
+      };
+    }
+
+    return null;
   }
 
   inputChanged(event) {
@@ -53,6 +66,7 @@ class UserContainer extends Component {
     event.preventDefault();
 
     var userData = {
+      id: this.state._id,
       name: this.state.name
       /*address: this.state.address,
       phone: this.state.phone,
@@ -83,8 +97,8 @@ class UserContainer extends Component {
             placeholder="Name"
             type="text"
             name="name"
-            value={this.state.name} // для связки value со стейтом чтоб писалось в инпуте
-            onChange={this.inputChanged}
+            value={user.name} // для связки value со стейтом чтоб писалось в инпуте
+            onChange={e => this.setState({ name: e.target.value })}
             error={this.state.errors.name}
           />
           <button onClick={this.onEditClicked} className="btn btn-primary">

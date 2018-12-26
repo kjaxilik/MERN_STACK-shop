@@ -92,20 +92,19 @@ router.get('/:id', (req, res) => {
 });
 
 router.put('/edit', (req, res) => {
-  //User.findById(req.body._id) // для проверки через Postman берет _id из PUT запроса
-  User.findById(req.user._id) // req.user._id - записан через passport
+  // User.findById( req.user._id )
+  User.findById(req.body._id)
     .then(user => {
-      user.password = req.body.password;
       user.name = req.body.name;
+      user.email = req.body.email;
       user.address = req.body.address;
       user.phone = req.body.phone;
-      user.email = req.body.email;
       user.birthDate = req.body.birthDate;
       user.rating = req.body.rating;
       user.photo = req.body.photo;
 
       user
-        .save() // для сохранения изменения в юзере
+        .save()
         .then(newUser => {
           res.status(200).send(newUser);
         })
@@ -114,7 +113,6 @@ router.put('/edit', (req, res) => {
         });
     })
     .catch(err => {
-      console.log(err.message);
       res.status(500).send(err);
     });
 });
@@ -126,8 +124,8 @@ router.put('/editpass', (req, res) => {
     return res.status(400).send(validation.errors);
   }
 
-  // User.findById(req.body._id) // для проверки через Postman берет _id из PUT запроса
-  User.findById(req.user._id)
+  // User.findById( req.user._id )
+  User.findById(req.body._id)
     .then(user => {
       user.password = req.body.password;
       user
