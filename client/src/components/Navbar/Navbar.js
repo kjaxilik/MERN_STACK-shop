@@ -60,20 +60,20 @@ class Navbar extends Component {
         </div>
         <div className="user-login-info">
           <Link to="/profile">
-            <img src="images/core-img/user.svg" alt="" />
+            <img src="../images/core-img/user.svg" alt="" />
           </Link>
         </div>
 
         {/* <!-- Favourite Area -->*/}
         {/*<div className="favourite-area">
           <Link to="/">
-            <img src="images/core-img/heart.svg" alt="" />
+            <img src="../images/core-img/heart.svg" alt="" />
           </Link>
         </div>
         {/* <!-- Cart Area -->*/}
         {/*<div className="cart-area">
           <Link to="/" id="essenceCartBtn">
-            <img src="images/core-img/bag.svg" alt="" /> <span>3</span>
+            <img src="../images/core-img/bag.svg" alt="" /> <span>3</span>
           </Link>
         </div>
         {/* <!-- Logout -->*/}

@@ -317,7 +317,7 @@ class ProductContainer extends Component {
                         {/*<!-- Product Description -->*/}
                         <div className="product-description">
                           <span>topshop</span>
-                          <Link to="single-product-details.html">
+                          <Link to="/products/single">
                             <h6>Knot Front Mini Dress</h6>
                           </Link>
                           <p className="product-price">
@@ -361,7 +361,7 @@ class ProductContainer extends Component {
                         {/*<!-- Product Description -->*/}
                         <div className="product-description">
                           <span>topshop</span>
-                          <Link to="single-product-details.html">
+                          <Link to="products/single">
                             <h6>Knot Front Mini Dress</h6>
                           </Link>
                           <p className="product-price">$80.00</p>
@@ -408,7 +408,7 @@ class ProductContainer extends Component {
                         {/*<!-- Product Description -->*/}
                         <div className="product-description">
                           <span>topshop</span>
-                          <Link to="single-product-details.html">
+                          <Link to="products/single">
                             <h6>Knot Front Mini Dress</h6>
                           </Link>
                           <p className="product-price">$80.00</p>

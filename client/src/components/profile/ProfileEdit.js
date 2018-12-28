@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+
 import InputField from '../common/InputField';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -106,7 +108,16 @@ class ProfileEdit extends Component {
                 error={this.state.errors.rating}
               />
 
-              <button className="btn btn-primary">Save</button>
+              <div className="btn-group">
+                <div>
+                  <button className="btn btn-primary">Save</button>
+                </div>
+                <div className="col-auto">
+                  <Link to="/profile">
+                    <button className="btn btn-secondary">Cancel</button>
+                  </Link>
+                </div>
+              </div>
             </form>
           </div>
         </div>

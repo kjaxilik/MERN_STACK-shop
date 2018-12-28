@@ -118,6 +118,6 @@ export const edit = (data, history) => dispatch => {
         type: 'GET_ERRORS',
         errors: err.response.data
       });
-      console.log('errors from server: ' + err.response.data);
+      //console.log('errors from server: ' + err.response.data);
     });
 };
