@@ -28,6 +28,9 @@ class ProfileEdit extends Component {
 
   /* так как компонент загружается а потом получает props надо запустить функцию componentWillReceiveProps */
   componentWillReceiveProps(newProps) {
+    if (newProps.errors) {
+      this.setState({ errors: newProps.errors });
+    }
     if (newProps.user) {
       let userInfo = newProps.user.user;
       this.setState({ ...userInfo });
@@ -131,7 +134,8 @@ ProfileEdit.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  errors: state.errors
 });
 
 export default connect(

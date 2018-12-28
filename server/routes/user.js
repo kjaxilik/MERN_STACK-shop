@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
+var validateUserEdit = require('../validation/userEditValidator');
 
 var validateRegister = require('../validation/registration');
 var validateLogin = require('../validation/login');
@@ -92,13 +93,18 @@ router.get('/:id', (req, res) => {
 });
 
 router.put('/edit', (req, res) => {
+  var validation = validateUserEdit(req.body.name, req.body.email);
+
+  if (!validation.isValid) {
+    return res.status(400).send(validation.errors);
+  }
   //User.findById(req.body._id) // для проверки через Postman берет _id из PUT запроса
   User.findById(req.body._id) // req.user._id - записан через passport но нам нужен id из реквеста - body
     .then(user => {
       user.name = req.body.name;
+      user.email = req.body.email;
       user.address = req.body.address;
       user.phone = req.body.phone;
-      user.email = req.body.email;
       user.birthDate = req.body.birthDate;
       user.rating = req.body.rating;
 
