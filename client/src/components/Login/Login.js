@@ -6,6 +6,10 @@ import PropTypes from 'prop-types';
 import { login } from '../../actions/userActions.js';
 
 import InputField from '../common/InputField';
+const Style = {
+  marginTop: `50%`,
+  marginBottom: `50%`
+};
 
 class Login extends Component {
   constructor(props) {
@@ -47,7 +51,7 @@ class Login extends Component {
       <div className="container mt-5">
         <div className="row">
           <div className="col-md-6 m-auto">
-            <form onSubmit={this.formSubmitted}>
+            <form onSubmit={this.formSubmitted} style={Style}>
               <InputField
                 placeholder="Login"
                 type="text"

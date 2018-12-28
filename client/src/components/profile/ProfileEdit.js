@@ -48,7 +48,6 @@ class ProfileEdit extends Component {
       rating: this.state.rating
     };
 
-    console.log(this.props);
     this.props.edit(userData, this.props.history);
   }
 

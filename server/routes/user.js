@@ -92,19 +92,18 @@ router.get('/:id', (req, res) => {
 });
 
 router.put('/edit', (req, res) => {
-  // User.findById( req.user._id )
-  User.findById(req.body._id)
+  //User.findById(req.body._id) // для проверки через Postman берет _id из PUT запроса
+  User.findById(req.body._id) // req.user._id - записан через passport но нам нужен id из реквеста - body
     .then(user => {
       user.name = req.body.name;
-      user.email = req.body.email;
       user.address = req.body.address;
       user.phone = req.body.phone;
+      user.email = req.body.email;
       user.birthDate = req.body.birthDate;
       user.rating = req.body.rating;
-      user.photo = req.body.photo;
 
       user
-        .save()
+        .save() // для сохранения изменения в юзере
         .then(newUser => {
           res.status(200).send(newUser);
         })
@@ -124,8 +123,8 @@ router.put('/editpass', (req, res) => {
     return res.status(400).send(validation.errors);
   }
 
-  // User.findById( req.user._id )
-  User.findById(req.body._id)
+  // User.findById(req.body._id) // для проверки через Postman берет _id из PUT запроса
+  User.findById(req.user._id)
     .then(user => {
       user.password = req.body.password;
       user

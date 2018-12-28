@@ -102,7 +102,7 @@ router.get('/:id', (req, res)=>{
 
 router.put('/edit', (req, res) => {
     // User.findById( req.user._id )
-    User.findById( req.body._id )
+    User.findById( req.user._id )
         .then( user => {
 
             user.name = req.body.name;
