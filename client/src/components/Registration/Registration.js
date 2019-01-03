@@ -97,6 +97,9 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
+// mapStateToProps - то что надо из общего стейта
+// { registrate } - action - для изменения стейта
+// (Registration) - сам компонент отправляет в стейт
 export default connect(
   mapStateToProps,
   { registrate }

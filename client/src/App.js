@@ -22,6 +22,7 @@ import ProfileEdit from './components/profile/ProfileEdit';
 //ProductContainer import
 
 import ProductContainer from './components/products/ProductsContainer';
+import ProductAdd from './components/products/ProductAdd';
 import ProductSingle from './components/products/ProductSingle';
 
 import Footer from './components/footer/footerContainer';
@@ -43,6 +44,16 @@ class App extends Component {
 
       store.dispatch(getUserById(cookies.get('user')));
     }
+    /*
+    var { product } = store.product;
+    console.log(store.product);
+
+    if (product) {
+      store.dispatch({
+        type: 'ADD_PRODUCT',
+        isAdded: true
+      });
+    }*/
   }
 
   render() {
@@ -58,6 +69,7 @@ class App extends Component {
               <Route exact path="/registration" component={Registration} />
               <Route exact path="/products" component={ProductContainer} />
               <Route exact path="/products/single" component={ProductSingle} />
+              <Route exact path="/products/add" component={ProductAdd} />
               {/*если юзер залогинился PrivateRoute*/}
               <PrivateRoute exact path="/profile" component={ProfileContainer} />
               <PrivateRoute exact path="/profile/edit" component={ProfileEdit} />

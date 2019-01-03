@@ -25,7 +25,6 @@ class ProductSingle extends Component {
     };
     return (
       <React.Fragment>
-        
         {/*<!-- ##### Shop Grid Area Start ##### --> */}
         <section className="single_product_details_area d-flex align-items-center">
           {/* <!-- Single Product Thumb -->*/}
@@ -33,18 +32,18 @@ class ProductSingle extends Component {
             {/* React Slick Carousel: https://github.com/akiran/react-slick
            settings: https://react-slick.neostack.com/docs/api/
           methods: https://react-slick.neostack.com/docs/api/#methods*/}
-          <Slider {...sliderSet}>
-          {/*https://github.com/FormidableLabs/nuka-carousel */}
-          <div>
-            <img src="../images/product-img/product-big-1.jpg" alt="" />
-          </div>
-          <div>
-            <img src="../images/product-img/product-big-2.jpg" alt="" />
-          </div>
-          <div>
-            <img src="../images/product-img/product-big-3.jpg" alt="" />
-          </div>
-        </Slider>
+            <Slider {...sliderSet}>
+              {/*https://github.com/FormidableLabs/nuka-carousel */}
+              <div>
+                <img src="../images/product-img/product-big-1.jpg" alt="" />
+              </div>
+              <div>
+                <img src="../images/product-img/product-big-2.jpg" alt="" />
+              </div>
+              <div>
+                <img src="../images/product-img/product-big-3.jpg" alt="" />
+              </div>
+            </Slider>
           </div>
           {/* <!-- Single Product Description -->*/}
           <div className="single_product_desc clearfix">
@@ -84,9 +83,9 @@ class ProductSingle extends Component {
                   Add to cart
                 </button>
                 {/* <!-- Favourite -->*/}
-                <div className="product-favourite ml-4">
+                {/*<div className="product-favourite ml-4">
                   <a href="#" className="favme fa fa-heart" />
-                </div>
+        </div>*/}
               </div>
             </form>
           </div>

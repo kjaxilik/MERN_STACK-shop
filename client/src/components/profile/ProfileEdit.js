@@ -61,7 +61,7 @@ class ProfileEdit extends Component {
       <div className="container mt-5">
         <div className="row">
           <div className="col-md-6 m-auto">
-            <form onSubmit={this.formSubmitted}>
+            <form onSubmit={this.formSubmitted} noValidate>
               <InputField
                 placeholder="Name"
                 type="text"

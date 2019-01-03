@@ -110,8 +110,6 @@ export const edit = (data, history) => dispatch => {
         type: 'GET_ERRORS',
         errors: {}
       });
-
-      history.push('/profile');
     })
     .catch(err => {
       dispatch({

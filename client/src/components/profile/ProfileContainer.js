@@ -36,7 +36,6 @@ class ProfileContainer extends Component {
           <div
             className="modal fade"
             id="myModal"
-            tabindex="-1"
             role="dialog"
             aria-labelledby="myModalLabel"
             aria-hidden="true"

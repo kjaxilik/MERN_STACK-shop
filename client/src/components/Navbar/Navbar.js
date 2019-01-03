@@ -112,7 +112,7 @@ class Navbar extends Component {
                       <Link to="/products">Shop</Link>
                     </li>
                     <li>
-                      <Link to="/">Pages</Link>
+                      <Link to="/products/add">Add Product</Link>
                     </li>
                     <li>
                       <Link to="/">Blog</Link>
