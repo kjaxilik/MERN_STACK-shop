@@ -63,6 +63,12 @@ class Navbar extends Component {
             <img src="../images/core-img/user.svg" alt="" />
           </Link>
         </div>
+        {/* <!-- Logout -->*/}
+        <div className="user-login-info">
+          <Link onClick={this.onLogoutClick} to="/">
+            Logout
+          </Link>
+        </div>
 
         {/* <!-- Favourite Area -->*/}
         {/*<div className="favourite-area">
@@ -70,18 +76,12 @@ class Navbar extends Component {
             <img src="../images/core-img/heart.svg" alt="" />
           </Link>
         </div>
-        {/* <!-- Cart Area -->*/}
+        {/* <!-- Cart Area -->
         {/*<div className="cart-area">
           <Link to="/" id="essenceCartBtn">
             <img src="../images/core-img/bag.svg" alt="" /> <span>3</span>
           </Link>
-        </div>
-        {/* <!-- Logout -->*/}
-        <div className="user-login-info">
-          <Link onClick={this.onLogoutClick} to="/">
-            Logout
-          </Link>
-        </div>
+        </div>*/}
       </React.Fragment>
     );
 

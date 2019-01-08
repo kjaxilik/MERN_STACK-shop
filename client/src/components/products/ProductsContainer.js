@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 //import PropTypes from 'prop-types';
+
+import { getProducts } from '../../actions/productActions';
+
+import SingleProduct from './SingleProduct';
+import { connect } from 'react-redux';
+//import PropTypes from 'prop-types';
 //import { connect } from 'react-redux';
 // rc slider for cost ranging: https://react-component.github.io/slider/
 const Style = {
@@ -9,6 +15,11 @@ const Style = {
 };
 
 class ProductContainer extends Component {
+  /****** вызов функции getProducts и добавление в props */
+  componentWillMount() {
+    this.props.getProducts();
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -288,143 +299,14 @@ class ProductContainer extends Component {
                     </div>
                   </div>
 
+                  {/*****************
+                  Single Products 
+                **********************/}
+
                   <div className="row">
-                    {/*<!-- Single Product -->*/}
-                    <div className="col-12 col-sm-6 col-lg-4">
-                      <div className="single-product-wrapper">
-                        {/*<!-- Product Image -->*/}
-                        <Link to="/products/single">
-                          <div className="product-img">
-                            <img src="../images/product-img/product-1.jpg" alt="" />
-                            {/*<!-- Hover Thumb -->*/}
-                            <img
-                              className="hover-img"
-                              src="../images/product-img/product-2.jpg"
-                              alt=""
-                            />
-
-                            {/*<!-- Product Badge -->*/}
-                            <div className="product-badge offer-badge">
-                              <span>-30%</span>
-                            </div>
-                            {/*<!-- Favourite -->
-                            <div className="product-favourite">
-                              <a href="#" className="favme fa fa-heart" />
-                            </div>*/}
-                          </div>
-                        </Link>
-
-                        {/*<!-- Product Description -->*/}
-                        <div className="product-description">
-                          <span>topshop</span>
-                          <Link to="/products/single">
-                            <h6>Knot Front Mini Dress</h6>
-                          </Link>
-                          <p className="product-price">
-                            <span className="old-price">$75.00</span> $55.00
-                          </p>
-
-                          {/*<!-- Hover Content -->*/}
-                          <div className="hover-content">
-                            {/*<!-- Add to Cart -->*/}
-                            <div className="add-to-cart-btn">
-                              <Link to="#" className="btn essence-btn">
-                                Add to Cart
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/*<!-- Single Product -->*/}
-                    <div className="col-12 col-sm-6 col-lg-4">
-                      <div className="single-product-wrapper">
-                        {/*<!-- Product Image -->*/}
-                        <Link to="/products/single">
-                          <div className="product-img">
-                            <img src="../images/product-img/product-2.jpg" alt="" />
-                            {/*<!-- Hover Thumb -->*/}
-                            <img
-                              className="hover-img"
-                              src="../images/product-img/product-3.jpg"
-                              alt=""
-                            />
-
-                            {/*<!-- Favourite -->
-                            <div className="product-favourite">
-                              <Link to="#" className="favme fa fa-heart" />
-                            </div>*/}
-                          </div>
-                        </Link>
-
-                        {/*<!-- Product Description -->*/}
-                        <div className="product-description">
-                          <span>topshop</span>
-                          <Link to="products/single">
-                            <h6>Knot Front Mini Dress</h6>
-                          </Link>
-                          <p className="product-price">$80.00</p>
-
-                          {/*<!-- Hover Content -->*/}
-                          <div className="hover-content">
-                            {/*<!-- Add to Cart -->*/}
-                            <div className="add-to-cart-btn">
-                              <Link to="#" className="btn essence-btn">
-                                Add to Cart
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/*<!-- Single Product -->*/}
-                    <div className="col-12 col-sm-6 col-lg-4">
-                      <div className="single-product-wrapper">
-                        {/*<!-- Product Image -->*/}
-                        <Link to="/products/single">
-                          <div className="product-img">
-                            <img src="../images/product-img/product-3.jpg" alt="" />
-                            {/*<!-- Hover Thumb -->*/}
-                            <img
-                              className="hover-img"
-                              src="../images/product-img/product-4.jpg"
-                              alt=""
-                            />
-
-                            {/*<!-- Product Badge -->*/}
-                            <div className="product-badge new-badge">
-                              <span>New</span>
-                            </div>
-
-                            {/*<!-- Favourite -->
-                            <div className="product-favourite">
-                              <Link to="#" className="favme fa fa-heart" />
-                            </div>*/}
-                          </div>
-                        </Link>
-
-                        {/*<!-- Product Description -->*/}
-                        <div className="product-description">
-                          <span>topshop</span>
-                          <Link to="products/single">
-                            <h6>Knot Front Mini Dress</h6>
-                          </Link>
-                          <p className="product-price">$80.00</p>
-
-                          {/*<!-- Hover Content -->*/}
-                          <div className="hover-content">
-                            {/*<!-- Add to Cart -->*/}
-                            <div className="add-to-cart-btn">
-                              <Link to="#" className="btn essence-btn">
-                                Add to Cart
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <SingleProduct />
+                    <SingleProduct />
+                    <SingleProduct />
                   </div>
                 </div>
                 {/* <!-- Pagination -->*/}
@@ -476,4 +358,15 @@ class ProductContainer extends Component {
   }
 }
 
-export default ProductContainer;
+// ProductContainer.propTypes = {
+//   products: PropTypes.object.isRequired
+// };
+
+const mapStateToProps = state => ({
+  products: state.products
+});
+
+export default connect(
+  mapStateToProps,
+  { getProducts }
+)(ProductContainer);

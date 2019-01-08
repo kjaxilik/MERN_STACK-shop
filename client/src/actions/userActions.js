@@ -71,6 +71,7 @@ export const logout = history => dispatch => {
         type: 'SET_USER',
         user: {}
       });
+      history.push('/login');
     })
     .catch(err => {
       dispatch({
@@ -110,6 +111,7 @@ export const edit = (data, history) => dispatch => {
         type: 'GET_ERRORS',
         errors: {}
       });
+      history.push('/profile');
     })
     .catch(err => {
       dispatch({

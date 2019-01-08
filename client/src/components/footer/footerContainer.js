@@ -8,9 +8,7 @@ class FooterContainer extends Component {
           <p className="float-right">
             <a href="#top">Back to top</a>
           </p>
-          <p>
-            Album example is &copy; Bootstrap, but please download and customize it for yourself!
-          </p>
+          <p>&copy; Bootstrap template</p>
         </div>
       </footer>
     );

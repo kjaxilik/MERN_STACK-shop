@@ -1,6 +1,7 @@
 const initialState = {
   isAdded: false,
-  product: {}
+  product: {},
+  products: {}
 };
 
 export default function(state = initialState, action) {
@@ -8,7 +9,13 @@ export default function(state = initialState, action) {
     case 'ADD_PRODUCT':
       return {
         ...state,
-        isAdded: action.isAdded
+        isAdded: action.isAdded,
+        product: action.product
+      };
+    case 'GET_PRODUCTS':
+      return {
+        ...state,
+        products: action.products
       };
 
     default:

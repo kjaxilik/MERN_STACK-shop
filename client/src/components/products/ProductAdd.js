@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import InputField from '../common/InputField';
 import { connect } from 'react-redux';
-//import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import { addProduct } from '../../actions/productActions';
 
@@ -152,14 +152,14 @@ class ProductEdit extends Component {
     );
   }
 }
-/*
+
 ProductEdit.propTypes = {
   product: PropTypes.object.isRequired
   //errors: PropTypes.object.isRequired
-};*/
+};
 
 const mapStateToProps = state => ({
-  //product: state.product,
+  product: state.product,
   errors: state.errors
 });
 
