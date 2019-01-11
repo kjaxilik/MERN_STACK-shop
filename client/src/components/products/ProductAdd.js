@@ -8,8 +8,8 @@ import PropTypes from 'prop-types';
 import { addProduct } from '../../actions/productActions';
 
 class ProductEdit extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.state = {
       name: '',
@@ -33,6 +33,10 @@ class ProductEdit extends Component {
     if (newProps.errors) {
       this.setState({ errors: newProps.errors });
     }
+
+    if (newProps.newProduct) {
+      this.props.history.push('/product/' + newProps.newProduct._id);
+    }
   }
   inputChanged(event) {
     this.setState({ [event.target.name]: event.target.value });
@@ -46,14 +50,14 @@ class ProductEdit extends Component {
       description: this.state.description,
       price: this.state.price,
       category: this.state.category,
-      seller: this.state.seller,
+      seller: this.state.userId,
       count: this.state.count,
       sold: this.state.sold,
       rating: this.state.rating,
       mainImg: this.state.mainImg
     };
 
-    this.props.addProduct(productData, this.props.history);
+    this.props.addProduct(productData, this.props.user);
   }
 
   render() {
@@ -160,6 +164,7 @@ ProductEdit.propTypes = {
 
 const mapStateToProps = state => ({
   product: state.product,
+  user: state.user,
   errors: state.errors
 });
 

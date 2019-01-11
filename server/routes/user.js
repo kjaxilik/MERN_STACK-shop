@@ -65,7 +65,7 @@ router.post('/login', function(req, res, next) {
       return res.status(401).send(validation);
     }
 
-    req.logIn(user, function() {
+    req.login(user, function() {
       res.cookie('user', JSON.stringify(user._id));
       return res.status(200).send(user);
     });

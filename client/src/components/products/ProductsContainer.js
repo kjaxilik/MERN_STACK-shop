@@ -15,12 +15,33 @@ const Style = {
 };
 
 class ProductContainer extends Component {
-  /****** вызов функции getProducts и добавление в props */
-  componentWillMount() {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      products: [],
+      Upload: false
+    };
+
     this.props.getProducts();
   }
 
+  componentWillReceiveProps(newProps) {
+    if (newProps.products) {
+      this.setState({ products: newProps.products, Upload: true });
+    }
+  }
+
   render() {
+    let Products = '';
+    if (this.state.Upload) {
+      Products = this.state.products.map(product => (
+        <React.Fragment>
+          <SingleProduct key={product._id} prod={{ product }} />
+        </React.Fragment>
+      ));
+    }
+
     return (
       <React.Fragment>
         {/*<!-- ##### Breadcumb Area Start ##### --> */}
@@ -302,12 +323,7 @@ class ProductContainer extends Component {
                   {/*****************
                   Single Products 
                 **********************/}
-
-                  <div className="row">
-                    <SingleProduct />
-                    <SingleProduct />
-                    <SingleProduct />
-                  </div>
+                  <div className="row">{this.state.Upload ? Products : ''}</div>
                 </div>
                 {/* <!-- Pagination -->*/}
                 <nav aria-label="navigation">
@@ -363,7 +379,7 @@ class ProductContainer extends Component {
 // };
 
 const mapStateToProps = state => ({
-  products: state.products
+  products: state.product.products
 });
 
 export default connect(

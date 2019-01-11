@@ -2,13 +2,31 @@ import React, { Component } from 'react';
 import Slider from 'react-slick';
 import '../../../node_modules/slick-carousel/slick/slick.css';
 import '../../../node_modules/slick-carousel/slick/slick-theme.css';
+import { getProductById } from '../../actions/productActions';
+import { connect } from 'react-redux';
 
 //import { Link } from 'react-router-dom';
 
 //import PropTypes from 'prop-types';
 //import { connect } from 'react-redux';
 
-class ProductSingle extends Component {
+class ProductPage extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      product: {}
+    };
+
+    let { id } = this.props.match.params;
+    this.props.getProductById(id);
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.product) {
+      this.setState({ product: newProps.product });
+    }
+  }
   render() {
     var sliderSet = {
       dots: true,
@@ -49,15 +67,13 @@ class ProductSingle extends Component {
           <div className="single_product_desc clearfix">
             <span>mango</span>
             <a href="cart.html">
-              <h2>One Shoulder Glitter Midi Dress</h2>
+              <h2>{this.state.product.name}</h2>
             </a>
             <p className="product-price">
-              <span className="old-price">$65.00</span> $49.00
+              <span className="old-price">${this.state.product.price}</span> $
+              {this.state.product.price}
             </p>
-            <p className="product-desc">
-              Mauris viverra cursus ante laoreet eleifend. Donec vel fringilla ante. Aenean finibus
-              velit id urna vehicula, nec maximus est sollicitudin.
-            </p>
+            <p className="product-desc">{this.state.product.description}</p>
 
             {/* <!-- Form -->*/}
             <form className="cart-form clearfix" method="post">
@@ -85,7 +101,7 @@ class ProductSingle extends Component {
                 {/* <!-- Favourite -->*/}
                 {/*<div className="product-favourite ml-4">
                   <a href="#" className="favme fa fa-heart" />
-        </div>*/}
+                </div>*/}
               </div>
             </form>
           </div>
@@ -95,4 +111,11 @@ class ProductSingle extends Component {
   }
 }
 
-export default ProductSingle;
+const mapStateToProps = state => ({
+  product: state.product.product
+});
+
+export default connect(
+  mapStateToProps,
+  { getProductById }
+)(ProductPage);

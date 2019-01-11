@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+
 var Product = require('../models/Product');
 var validateAddProduct = require('../validation/addProductValidation');
 
@@ -10,45 +11,61 @@ router.post('/add', (req, res) => {
     req.body.price,
     req.body.count
   );
+  console.log(req.user);
 
   if (!validation.isValid) {
     return res.status(400).send(validation.errors);
+  }
+
+  if (!req.user) {
+    return res.status(401).send({ message: 'No authorized user' });
   } else {
-    var newProduct = new Product({
+    let newProduct = new Product({
       name: req.body.name,
       description: req.body.description,
-      price: req.body.price,
-      //category: req.body.category,
-      //seller: req.body.seller,
       count: req.body.count,
-      sold: req.body.sold,
-      rating: req.body.rating
-      //mainImg: req.body.mainImg
+      price: req.body.price,
+      seller: req.user._id
     });
 
     newProduct
       .save()
       .then(product => {
-        //console.log('Product Added' + product);
         res.status(200).send(product);
       })
       .catch(err => {
-        console.log(err);
-        res.status(400).send();
+        res.status(500).send({ message: err.message });
       });
   }
+});
+
+/** GET SINGLE PRODUCT */
+router.get('/:id', (req, res) => {
+  Product.findById(req.params.id)
+    .populate('seller')
+    .then(product => {
+      if (product) {
+        return res.status(200).send(product);
+      }
+
+      return res.status(404).end();
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
 });
 
 /** GET ALL PRODUCTS */
 router.get('/', (req, res) => {
   Product.find()
+    .populate('seller')
     .then(products => {
       if (products) {
         res.status(200).send(products);
       }
     })
     .catch(err => {
-      res.status(500).send(err);
+      res.status(500).send({ message: err.message });
     });
 });
 

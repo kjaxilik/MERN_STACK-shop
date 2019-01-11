@@ -5,7 +5,6 @@ import { instanceOf } from 'prop-types';
 import { Provider } from 'react-redux';
 
 import Navbar from './components/Navbar/Navbar';
-import Main from './components/MainPage/MainPage';
 
 import Login from './components/Login/Login';
 import Registration from './components/Registration/Registration';
@@ -19,14 +18,12 @@ import { getUserById } from './actions/userActions';
 import ProfileContainer from './components/profile/ProfileContainer';
 import ProfileEdit from './components/profile/ProfileEdit';
 
-//ProductContainer import
-
 import ProductContainer from './components/products/ProductsContainer';
 import ProductAdd from './components/products/ProductAdd';
 import ProductSingle from './components/products/ProductSingle';
+import HomePage from './components/products/HomePage';
 
 import Footer from './components/footer/footerContainer';
-// import bootstrap
 //import 'bootstrap/dist/css/bootstrap.min.css';
 //import Popper from 'popper.js';
 //import 'bootstrap/dist/js/bootstrap.bundle.min';
@@ -44,16 +41,6 @@ class App extends Component {
 
       store.dispatch(getUserById(cookies.get('user')));
     }
-    /*
-    var { product } = store.product;
-    console.log(store.product);
-
-    if (product) {
-      store.dispatch({
-        type: 'ADD_PRODUCT',
-        isAdded: true
-      });
-    }*/
   }
 
   render() {
@@ -64,16 +51,16 @@ class App extends Component {
             <Navbar />
 
             <Switch>
-              <Route exact path="/" component={Main} />
+              <Route exact path="/" component={HomePage} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/registration" component={Registration} />
               <Route exact path="/products" component={ProductContainer} />
-              <Route exact path="/products/single" component={ProductSingle} />
-              <Route exact path="/products/add" component={ProductAdd} />
               {/*если юзер залогинился PrivateRoute*/}
+              <PrivateRoute exact path="/products/add" component={ProductAdd} />
               <PrivateRoute exact path="/profile" component={ProfileContainer} />
               <PrivateRoute exact path="/profile/edit" component={ProfileEdit} />
 
+              <Route exact path="/products/:id" component={ProductSingle} />
               <Route component={NotFound} />
             </Switch>
             <Footer />
