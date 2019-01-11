@@ -17,7 +17,6 @@ class HomePage extends Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.products) {
-      //console.log(newProps.products);
       this.setState({ products: newProps.products, Upload: true });
     }
   }
