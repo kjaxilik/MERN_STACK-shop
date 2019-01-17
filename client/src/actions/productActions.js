@@ -23,13 +23,14 @@ export const addProduct = data => dispatch => {
     });
 };
 
-export const getProducts = () => dispatch => {
+export const getProducts = page => dispatch => {
   axios
-    .get('/api/product/')
+    .get('/api/product/all/' + page)
     .then(res => {
       dispatch({
         type: 'GET_PRODUCTS',
-        products: res.data
+        products: res.data.products,
+        count: res.data.count
       });
     })
     .catch(err => {
@@ -39,6 +40,14 @@ export const getProducts = () => dispatch => {
       });
     });
 };
+
+export const changePagination = page => dispatch => {
+  dispatch({
+    type: 'CHANGE_PAGE',
+    page
+  });
+};
+
 export const getProductById = id => dispatch => {
   axios
     .get('/api/product/' + id)
@@ -57,5 +66,24 @@ export const getProductById = id => dispatch => {
         type: 'GET_ERRORS',
         errors: err.response.data
       });
+    });
+};
+
+export const getUserProducts = id => dispatch => {
+  axios
+    .get('/api/product/user/' + id)
+    .then(res => {
+      dispatch({
+        type: 'USER_PRODUCTS',
+        products: res.data
+      });
+    })
+    .catch(err => {
+      if (err) {
+        dispatch({
+          type: 'GET_ERRORS',
+          errors: err.response.data
+        });
+      }
     });
 };
