@@ -1,7 +1,10 @@
 const initialState = {
-  product: {},
   products: {},
-  currentProduct: {}
+  newProduct: {},
+  currentProduct: {},
+  userProducts: {},
+  page: 1,
+  count: 0
 };
 
 export default function(state = initialState, action) {
@@ -9,17 +12,28 @@ export default function(state = initialState, action) {
     case 'ADD_PRODUCT':
       return {
         ...state,
-        product: action.product
+        newProduct: action.product
       };
     case 'GET_PRODUCTS':
       return {
         ...state,
-        products: action.products
+        products: action.products,
+        count: action.count
       };
     case 'CURRENT_PRODUCT':
       return {
         ...state,
-        product: action.product
+        currentProduct: action.product
+      };
+    case 'USER_PRODUCTS':
+      return {
+        ...state,
+        userProducts: action.products
+      };
+    case 'CHANGE_PAGE':
+      return {
+        ...state,
+        page: action.page
       };
 
     default:

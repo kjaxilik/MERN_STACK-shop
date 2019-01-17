@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 //import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
-import { getProducts } from '../../actions/productActions';
+import { getProducts, changePagination } from '../../actions/productActions';
 
 import SingleProduct from './SingleProduct';
 import { connect } from 'react-redux';
@@ -20,27 +21,48 @@ class ProductContainer extends Component {
 
     this.state = {
       products: [],
-      Upload: false
+      page: 1,
+      count: 0,
+      pages: []
     };
 
-    this.props.getProducts();
+    this.props.getProducts(1);
+    this.changePage = this.changePage.bind(this);
+  }
+
+  changePage(page) {
+    this.props.changePagination(page);
+    this.props.getProducts(page);
+    this.setState({ page: page });
   }
 
   componentWillReceiveProps(newProps) {
     if (newProps.products) {
-      this.setState({ products: newProps.products, Upload: true });
+      this.setState({ products: newProps.products });
+    }
+
+    // Количество продуктов
+    if (newProps.count) {
+      let pagesCount = Math.ceil(newProps.count / 6);
+
+      const pageNumbers = [];
+      for (let i = 1; i <= pagesCount; i++) {
+        pageNumbers.push(i);
+      }
+      this.setState({ pages: pageNumbers });
+    }
+
+    if (newProps.page && newProps.page !== this.state.page) {
+      this.setState({ page: newProps.page });
     }
   }
 
   render() {
-    let Products = '';
-    if (this.state.Upload) {
-      Products = this.state.products.map(product => (
-        <React.Fragment>
-          <SingleProduct key={product._id} prod={{ product }} />
-        </React.Fragment>
-      ));
-    }
+    var ProductMap = this.state.products.map(el => (
+      <React.Fragment>
+        <SingleProduct key={el._id} prod={el} />
+      </React.Fragment>
+    ));
 
     return (
       <React.Fragment>
@@ -323,43 +345,50 @@ class ProductContainer extends Component {
                   {/*****************
                   Single Products 
                 **********************/}
-                  <div className="row">{this.state.Upload ? Products : ''}</div>
+                  <div className="row">{ProductMap}</div>
                 </div>
                 {/* <!-- Pagination -->*/}
                 <nav aria-label="navigation">
                   <ul className="pagination mt-50 mb-70">
-                    <li className="page-item">
-                      <Link className="page-link" to="#">
+                    <li className={classnames('page-item', { disabled: this.state.page === 1 })}>
+                      <Link
+                        className="page-link"
+                        to="#"
+                        onClick={() => {
+                          this.changePage(this.state.page - 1);
+                        }}
+                      >
                         <i className="fa fa-angle-left" />
                       </Link>
                     </li>
-                    <li className="page-item">
-                      <Link className="page-link" to="#">
-                        1
-                      </Link>
-                    </li>
-                    <li className="page-item">
-                      <Link className="page-link" to="#">
-                        2
-                      </Link>
-                    </li>
-                    <li className="page-item">
-                      <Link className="page-link" to="#">
-                        3
-                      </Link>
-                    </li>
-                    <li className="page-item">
-                      <Link className="page-link" to="#">
-                        ...
-                      </Link>
-                    </li>
-                    <li className="page-item">
-                      <Link className="page-link" to="#">
-                        21
-                      </Link>
-                    </li>
-                    <li className="page-item">
-                      <Link className="page-link" to="#">
+                    {this.state.pages.map(el => (
+                      <li className={classnames('page-item', { active: this.state.page === el })}>
+                        <Link
+                          className="page-link"
+                          to="#"
+                          key={el.index}
+                          p={el}
+                          onClick={() => {
+                            this.changePage(el);
+                          }}
+                        >
+                          {el}
+                        </Link>
+                      </li>
+                    ))}
+
+                    <li
+                      className={classnames('page-item', {
+                        disabled: this.state.page === this.state.pages.length
+                      })}
+                    >
+                      <Link
+                        className="page-link"
+                        to="#"
+                        onClick={() => {
+                          this.changePage(this.state.page + 1);
+                        }}
+                      >
                         <i className="fa fa-angle-right" />
                       </Link>
                     </li>
@@ -379,10 +408,12 @@ class ProductContainer extends Component {
 // };
 
 const mapStateToProps = state => ({
-  products: state.product.products
+  products: state.product.products,
+  currentPage: state.product.page,
+  count: state.product.count
 });
 
 export default connect(
   mapStateToProps,
-  { getProducts }
+  { getProducts, changePagination }
 )(ProductContainer);

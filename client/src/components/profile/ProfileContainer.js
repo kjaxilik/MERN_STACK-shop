@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import ProfileProducts from './ProfileProducts';
+
 class ProfileContainer extends Component {
   render() {
     const { user } = this.props.user;
@@ -11,7 +13,7 @@ class ProfileContainer extends Component {
       <main role="main">
         <div className="container">
           <div className="row">
-            <div className="span3 well">
+            <div className="col-12 col-md-4 col-lg-3">
               <div className="text-center">
                 <a href="#aboutModal" data-toggle="modal" data-target="#myModal">
                   <img
@@ -31,6 +33,15 @@ class ProfileContainer extends Component {
                 </Link>
               </div>
             </div>
+            <div className="col-12 col-md-8 col-lg-9">
+              <div className="shop_grid_product_area">
+                <div className="row">
+                  <ProfileProducts />
+                </div>
+              </div>
+            </div>
+
+            
           </div>
 
           <div

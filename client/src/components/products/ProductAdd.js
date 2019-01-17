@@ -35,7 +35,7 @@ class ProductEdit extends Component {
     }
 
     if (newProps.newProduct) {
-      this.props.history.push('/product/' + newProps.newProduct._id);
+      this.props.history.push('/products/' + newProps.newProduct._id);
     }
   }
   inputChanged(event) {
@@ -50,14 +50,13 @@ class ProductEdit extends Component {
       description: this.state.description,
       price: this.state.price,
       category: this.state.category,
-      seller: this.state.userId,
       count: this.state.count,
       sold: this.state.sold,
       rating: this.state.rating,
       mainImg: this.state.mainImg
     };
 
-    this.props.addProduct(productData, this.props.user);
+    this.props.addProduct(productData);
   }
 
   render() {
@@ -98,14 +97,7 @@ class ProductEdit extends Component {
                 name="category"
                 error={this.state.errors.category}
               />
-              <InputField
-                placeholder="Seller"
-                type="text"
-                onChange={this.inputChanged}
-                value={this.state.seller ? this.state.seller : ''} // если нет значения показать пустое поле
-                name="seller"
-                error={this.state.errors.seller}
-              />
+
               <InputField
                 placeholder="Count"
                 type="number"
@@ -158,13 +150,11 @@ class ProductEdit extends Component {
 }
 
 ProductEdit.propTypes = {
-  product: PropTypes.object.isRequired
-  //errors: PropTypes.object.isRequired
+  addProduct: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  product: state.product,
-  user: state.user,
+  newProduct: state.product.newProduct,
   errors: state.errors
 });
 

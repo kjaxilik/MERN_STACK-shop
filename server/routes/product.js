@@ -11,7 +11,6 @@ router.post('/add', (req, res) => {
     req.body.price,
     req.body.count
   );
-  console.log(req.user);
 
   if (!validation.isValid) {
     return res.status(400).send(validation.errors);
@@ -39,6 +38,18 @@ router.post('/add', (req, res) => {
   }
 });
 
+/** GET ALL PRODUCTS OF USER */
+router.get('/user/:id', (req, res) => {
+  Product.find({ seller: req.params.id })
+    .populate('seller')
+    .then(products => {
+      res.status(200).send(products);
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    });
+});
+
 /** GET SINGLE PRODUCT */
 router.get('/:id', (req, res) => {
   Product.findById(req.params.id)
@@ -56,13 +67,35 @@ router.get('/:id', (req, res) => {
 });
 
 /** GET ALL PRODUCTS */
-router.get('/', (req, res) => {
+// router.get('/', (req, res) => {
+//   Product.find()
+//     .populate('seller')
+//     .then(products => {
+//       if (products) {
+//         res.status(200).send(products);
+//       }
+//     })
+//     .catch(err => {
+//       res.status(500).send({ message: err.message });
+//     });
+// });
+
+// PAGINATION OF PRODUCTS
+router.get('/all/:page', (req, res) => {
   Product.find()
+    .sort({ data: -1 })
+    .skip((req.params.page - 1) * 6)
+    .limit(6)
     .populate('seller')
     .then(products => {
-      if (products) {
-        res.status(200).send(products);
-      }
+      Product.count({})
+        .then(count => {
+          res.status(200).send({
+            products,
+            count
+          });
+        })
+        .catch();
     })
     .catch(err => {
       res.status(500).send({ message: err.message });

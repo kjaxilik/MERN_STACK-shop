@@ -99,7 +99,7 @@ router.put('/edit', (req, res) => {
     return res.status(400).send(validation.errors);
   }
   //User.findById(req.body._id) // для проверки через Postman берет _id из PUT запроса
-  User.findById(req.body._id) // req.user._id - записан через passport но нам нужен id из реквеста - body
+  User.findById(req.user._id) // req.user._id - записан через passport но нам нужен id из реквеста - body
     .then(user => {
       user.name = req.body.name;
       user.email = req.body.email;
