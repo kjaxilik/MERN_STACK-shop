@@ -19,6 +19,7 @@ import ProfileContainer from './components/profile/ProfileContainer';
 import ProfileEdit from './components/profile/ProfileEdit';
 
 import ProductContainer from './components/products/ProductsContainer';
+import ProductContainerScroll from './components/products/ProductsContainerScrollDown';
 import ProductAdd from './components/products/ProductAdd';
 import ProductSingle from './components/products/ProductSingle';
 import HomePage from './components/products/HomePage';
@@ -55,6 +56,7 @@ class App extends Component {
               <Route exact path="/login" component={Login} />
               <Route exact path="/registration" component={Registration} />
               <Route exact path="/products" component={ProductContainer} />
+              <Route exact path="/productsScroll" component={ProductContainerScroll} />
               {/*если юзер залогинился PrivateRoute*/}
               <PrivateRoute exact path="/products/add" component={ProductAdd} />
               <PrivateRoute exact path="/profile" component={ProfileContainer} />
