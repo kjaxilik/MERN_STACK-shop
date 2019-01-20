@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 //import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
-import { getProducts } from '../../actions/productActions';
+import { changePagination } from '../../actions/productActions';
+import { getFavourites } from '../../actions/favouriteActions';
 
-import SingleProduct from './SingleProduct';
+import SingleProduct from './singleFavouriteProduct';
 import { connect } from 'react-redux';
 //import PropTypes from 'prop-types';
 //import { connect } from 'react-redux';
@@ -14,7 +16,7 @@ const Style = {
   backgroundImage: 'url(/images/bg-img/breadcumb.jpg)'
 };
 
-class ProductContainer extends Component {
+class FavouritesContainer extends Component {
   constructor(props) {
     super(props);
 
@@ -22,52 +24,74 @@ class ProductContainer extends Component {
       products: [],
       page: 1,
       count: 0,
-      items: 6,
-      loadingState: false
+      pages: []
     };
 
-    this.props.getProducts(1);
+    this.changePage = this.changePage.bind(this);
+  }
 
-    window.addEventListener('scroll', () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop ===
-        document.documentElement.offsetHeight
-      ) {
-        let pagesCount = Math.ceil(this.props.count / 6);
-        let page = this.state.page;
-        if (page < pagesCount) {
-          this.setState({ loadingState: true });
-          setTimeout(() => {
-            this.props.getProducts(page + 1);
-            this.setState({ page: page + 1 });
-          }, 500);
-        }
+  changePage(page) {
+    this.props.changePagination(page);
+    //this.props.getFavourites(this.props.user._id, page);
+    this.setState({ page: page });
+  }
+  componentDidMount() {
+    if (this.state.products.length === 0) {
+      this.props.getFavourites(this.props.user._id, 1);
+    }
+    if (this.props.products.length > 0) {
+      this.setState({ products: this.props.products });
+      console.log(this.props.products);
+    }
+    if (this.props.count) {
+      let pagesCount = Math.ceil(this.props.count / 6);
+      // short variant of new empty array
+      let pages = new Array(pagesCount);
+      pages.fill(0);
+
+      const pageNumbers = [];
+      for (let i = 1; i <= pagesCount; i++) {
+        pageNumbers.push(i);
       }
-    });
+
+      this.setState({ pages: pageNumbers });
+    }
   }
 
   componentWillReceiveProps(newProps) {
-    // first load of products
-    if (this.state.page === 1) {
+    if (
+      (newProps.user && newProps.products.length === 0) ||
+      newProps.products.length === undefined
+    ) {
+      this.props.getFavourites(newProps.user._id, 1);
+      console.log('getFav');
+    }
+
+    if (newProps.products.length > 0) {
       this.setState({ products: newProps.products });
+      console.log(newProps.products);
     }
 
-    if (this.state.page > 1) {
-      var items = this.state.products;
+    // Количество продуктов
+    console.log('count ' + newProps.count);
 
-      for (var i = 0; i < newProps.products.length; i++) {
-        items.push(newProps.products[i]);
-      }
-      console.log(items);
+    if (newProps.count) {
+      let pagesCount = Math.ceil(newProps.count / 6);
+      // short variant of new empty array
+      let pages = new Array(pagesCount);
+      pages.fill(0);
 
-      if (items.length > 0) {
-        this.setState({ products: items, loadingState: false });
+      const pageNumbers = [];
+      for (let i = 1; i <= pagesCount; i++) {
+        pageNumbers.push(i);
       }
+
+      this.setState({ pages: pageNumbers });
     }
 
-    // if (newProps.page && newProps.page !== this.state.page) {
-    //   this.setState({ page: newProps.page });
-    // }
+    if (newProps.page && newProps.page !== this.state.page) {
+      this.setState({ page: newProps.page });
+    }
   }
 
   render() {
@@ -359,8 +383,54 @@ class ProductContainer extends Component {
                   Single Products 
                 **********************/}
                   <div className="row">{ProductMap}</div>
-                  {this.state.loadingState ? <div>Loading please wait...</div> : ''}
                 </div>
+                {/* <!-- Pagination -->*/}
+                <nav aria-label="navigation">
+                  <ul className="pagination mt-50 mb-70">
+                    <li className={classnames('page-item', { disabled: this.state.page === 1 })}>
+                      <Link
+                        className="page-link"
+                        to="#"
+                        onClick={() => {
+                          this.changePage(this.state.page - 1);
+                        }}
+                      >
+                        <i className="fa fa-angle-left" />
+                      </Link>
+                    </li>
+                    {this.state.pages.map(el => (
+                      <li className={classnames('page-item', { active: this.state.page === el })}>
+                        <Link
+                          className="page-link"
+                          to="#"
+                          key={el.index}
+                          p={el}
+                          onClick={() => {
+                            this.changePage(el);
+                          }}
+                        >
+                          {el}
+                        </Link>
+                      </li>
+                    ))}
+
+                    <li
+                      className={classnames('page-item', {
+                        disabled: this.state.page === this.state.pages.length
+                      })}
+                    >
+                      <Link
+                        className="page-link"
+                        to="#"
+                        onClick={() => {
+                          this.changePage(this.state.page + 1);
+                        }}
+                      >
+                        <i className="fa fa-angle-right" />
+                      </Link>
+                    </li>
+                  </ul>
+                </nav>
               </div>
             </div>
           </div>
@@ -375,12 +445,13 @@ class ProductContainer extends Component {
 // };
 
 const mapStateToProps = state => ({
-  products: state.product.products,
-  currentPage: state.product.page,
-  count: state.product.count
+  products: state.favourites.favoriteProducts,
+  currentPage: state.favourites.page,
+  count: state.favourites.count,
+  user: state.user.user
 });
 
 export default connect(
   mapStateToProps,
-  { getProducts }
-)(ProductContainer);
+  { getFavourites, changePagination }
+)(FavouritesContainer);

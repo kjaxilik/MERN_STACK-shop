@@ -23,6 +23,7 @@ import ProductContainerScroll from './components/products/ProductsContainerScrol
 import ProductAdd from './components/products/ProductAdd';
 import ProductSingle from './components/products/ProductSingle';
 import HomePage from './components/products/HomePage';
+import FavouritePage from './components/Favourites/FavouritesContainer';
 
 import Footer from './components/footer/footerContainer';
 //import 'bootstrap/dist/css/bootstrap.min.css';
@@ -63,6 +64,7 @@ class App extends Component {
               <PrivateRoute exact path="/profile/edit" component={ProfileEdit} />
 
               <Route exact path="/products/:id" component={ProductSingle} />
+              <Route exact path="/favourites" component={FavouritePage} />
               <Route component={NotFound} />
             </Switch>
             <Footer />

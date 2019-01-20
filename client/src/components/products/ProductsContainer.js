@@ -44,11 +44,15 @@ class ProductContainer extends Component {
     // Количество продуктов
     if (newProps.count) {
       let pagesCount = Math.ceil(newProps.count / 6);
+      // short variant of new empty array
+      let pages = new Array(pagesCount);
+      pages.fill(0);
 
       const pageNumbers = [];
       for (let i = 1; i <= pagesCount; i++) {
         pageNumbers.push(i);
       }
+
       this.setState({ pages: pageNumbers });
     }
 

@@ -37,12 +37,7 @@ class Navbar extends Component {
         <div className="user-login-info">
           <Link to="/registration">Register</Link>
         </div>
-        {/* <!-- Favourite Area -->*/}
-        <div className="favourite-area">
-          <Link to="/">
-            <img src="../images/core-img/heart.svg" alt="" />
-          </Link>
-        </div>
+
         {/* <!-- Cart Area -->*/}
         {/*<div className="cart-area">
           <Link to="/" id="essenceCartBtn">
@@ -58,7 +53,13 @@ class Navbar extends Component {
         <div className="user-login-info">
           <Link to="/profile">{user.login}</Link>
         </div>
-        <div className="user-login-info">
+        {/* <!-- Favourite Area -->*/}
+        <div className="favourite-area">
+          <Link to="/favourites">
+            <img src="../images/core-img/heart.svg" alt="" />
+          </Link>
+        </div>
+        {/*<div className="user-login-info">
           <Link to="/profile">
             <img src="../images/core-img/user.svg" alt="" />
           </Link>
@@ -110,6 +111,9 @@ class Navbar extends Component {
                   <ul>
                     <li>
                       <Link to="/products">Shop</Link>
+                    </li>
+                    <li>
+                      <Link to="/productsScroll">ShopScroll</Link>
                     </li>
                     <li>
                       <Link to="/products/add">Add Product</Link>

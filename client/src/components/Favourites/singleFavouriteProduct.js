@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const SingleProduct = data => {
-  const product = data.prod;
+  const product = data.prod.product;
 
   return (
     <React.Fragment>
@@ -21,10 +21,10 @@ const SingleProduct = data => {
                 <span>New</span>
               </div>
 
-              {/*<!-- Favourite -->*/}
+              {/*<!-- Favourite -->
               <div className="product-favourite">
-                <Link to="#" className="favme fa fa-heart active" />
-              </div>
+                <Link to="#" className="favme fa fa-heart" />
+              </div>*/}
             </div>
           </Link>
 
