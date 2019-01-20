@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import { addFavourite, getFavourites } from '../../actions/favouriteActions';
 
 const SingleProduct = data => {
   const product = data.prod;
@@ -51,5 +54,12 @@ const SingleProduct = data => {
     </React.Fragment>
   );
 };
+const mapStateToProps = state => ({
+  favProducts: state.favourites.favoriteProducts,
+  user: state.user.user
+});
 
-export default SingleProduct;
+export default connect(
+  mapStateToProps,
+  { addFavourite, getFavourites }
+)(SingleProduct);

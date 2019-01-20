@@ -64,17 +64,13 @@ class FavouritesContainer extends Component {
       newProps.products.length === undefined
     ) {
       this.props.getFavourites(newProps.user._id, 1);
-      console.log('getFav');
     }
 
     if (newProps.products.length > 0) {
       this.setState({ products: newProps.products });
-      console.log(newProps.products);
     }
 
     // Количество продуктов
-    console.log('count ' + newProps.count);
-
     if (newProps.count) {
       let pagesCount = Math.ceil(newProps.count / 6);
       // short variant of new empty array
@@ -445,7 +441,7 @@ class FavouritesContainer extends Component {
 // };
 
 const mapStateToProps = state => ({
-  products: state.favourites.favoriteProducts,
+  products: state.favourites.favouriteProducts,
   currentPage: state.favourites.page,
   count: state.favourites.count,
   user: state.user.user

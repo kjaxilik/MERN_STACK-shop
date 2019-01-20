@@ -21,10 +21,10 @@ const SingleProduct = data => {
                 <span>New</span>
               </div>
 
-              {/*<!-- Favourite -->
+              {/*<!-- Favourite -->*/}
               <div className="product-favourite">
-                <Link to="#" className="favme fa fa-heart" />
-              </div>*/}
+                <Link to="#" className="favme fa fa-heart active" />
+              </div>
             </div>
           </Link>
 

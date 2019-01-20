@@ -1,5 +1,5 @@
 const initialState = {
-  favoriteProducts: {},
+  favouriteProducts: {},
   page: 1,
   count: 0
 };
@@ -9,7 +9,7 @@ export default function(state = initialState, action) {
     case 'GET_FAVOURITES':
       return {
         ...state,
-        favoriteProducts: action.products,
+        favouriteProducts: action.products,
         count: action.count
       };
 

@@ -17,3 +17,20 @@ export const getFavourites = (page, user) => dispatch => {
       });
     });
 };
+
+export const addFavourite = data => dispatch => {
+  axios
+    .post('/api/favourite/add' + data)
+    .then(res => {
+      dispatch({
+        type: 'ADD_FAVOURITE',
+        status: res.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: 'GET_ERRORS',
+        errors: err.response.data
+      });
+    });
+};
