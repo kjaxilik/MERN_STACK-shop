@@ -1,13 +1,12 @@
 import axios from 'axios';
 
-export const getFavourites = (page, user) => dispatch => {
+export const getCategories = () => dispatch => {
   axios
-    .get('/api/favourite/all/' + page + '/' + user)
+    .get('/api/category/all/')
     .then(res => {
       dispatch({
-        type: 'GET_FAVOURITES',
-        favProducts: res.data.favourites,
-        count: res.data.count
+        type: 'GET_CATEGORIES',
+        categories: res.data
       });
     })
     .catch(err => {
@@ -18,12 +17,12 @@ export const getFavourites = (page, user) => dispatch => {
     });
 };
 
-export const addFavourite = data => dispatch => {
+export const addCategories = data => dispatch => {
   axios
-    .post('/api/favourite/add' + data)
+    .post('/api/category/add' + data)
     .then(res => {
       dispatch({
-        type: 'ADD_FAVOURITE',
+        type: 'ADD_CATEGORIE',
         status: res.data
       });
     })

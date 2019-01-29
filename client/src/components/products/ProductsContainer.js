@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 
 import { getProducts, changePagination } from '../../actions/productActions';
+import { addFavourite, getFavourites } from '../../actions/favouriteActions';
+import { getCategories } from '../../actions/categoryActions';
 
 import SingleProduct from './SingleProduct';
 import { connect } from 'react-redux';
@@ -21,12 +23,17 @@ class ProductContainer extends Component {
 
     this.state = {
       products: [],
+      favProducts: [],
       page: 1,
       count: 0,
-      pages: []
+      pages: [],
+      categories: [],
+      subcategories: []
     };
 
     this.props.getProducts(1);
+    this.props.getCategories();
+
     this.changePage = this.changePage.bind(this);
   }
 
@@ -35,10 +42,48 @@ class ProductContainer extends Component {
     this.props.getProducts(page);
     this.setState({ page: page });
   }
+  componentDidMount() {
+    // if (this.state.products === 0) {
+    // }
+  }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.products) {
+    if (newProps.products.length > 0) {
       this.setState({ products: newProps.products });
+    }
+
+    if (newProps.categories.length > 0) {
+      var cat = [];
+      var subcat = [];
+      newProps.categories.map(el => {
+        if (el.parent) {
+          subcat.push(el);
+        } else {
+          cat.push(el);
+        }
+      });
+      if (newProps.categories.length === cat.length + subcat.length) {
+        this.setState({ subcategories: subcat, categories: cat });
+      }
+    }
+
+    if (newProps.categories.parent && this.state.categories.includes(newProps.categories.parent)) {
+      this.setState({ categories: newProps.categories.parent });
+    }
+
+    // Favourites loading
+    if (
+      (newProps.user && this.state.favProducts.length === 0) ||
+      (newProps.user && newProps.favProducts === undefined)
+    ) {
+      this.props.getFavourites(newProps.user._id, 1);
+      //console.log('first' + newProps.user && this.state.favProducts.length === 0);
+
+      //console.log('second' + newProps.favProducts);
+    }
+
+    if (newProps.favProducts.length > 0) {
+      this.setState({ favProducts: newProps.favProducts });
     }
 
     // Количество продуктов
@@ -65,6 +110,22 @@ class ProductContainer extends Component {
     var ProductMap = this.state.products.map(el => (
       <React.Fragment>
         <SingleProduct key={el._id} prod={el} />
+      </React.Fragment>
+    ));
+
+    var CategoryMap = this.state.categories.map(el => (
+      <React.Fragment key={el._id}>
+        <li data-toggle="collapse" data-target="#clothing">
+          {/**<div hidden>{console.log(el)}</div>*/}
+          <Link to="#">{el.name}</Link>
+          {this.state.subcategories.map(elem => (
+            <ul className="sub-menu collapse show" id="clothing">
+              <li>
+                <Link to="#">{elem.name}</Link>
+              </li>
+            </ul>
+          ))}
+        </li>
       </React.Fragment>
     ));
 
@@ -97,123 +158,10 @@ class ProductContainer extends Component {
                     {/*<!--  Catagories  -->*/}
                     <div className="catagories-menu">
                       <ul id="menu-content2" className="menu-content collapse show">
-                        {/*<!-- Single Item -->*/}
-                        <li data-toggle="collapse" data-target="#clothing">
-                          <Link to="#">clothing</Link>
-                          <ul className="sub-menu collapse show" id="clothing">
-                            <li>
-                              <Link to="#">All</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Bodysuits</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Dresses</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Hoodies &amp; Sweats</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Jackets &amp; Coats</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Jeans</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Pants &amp; Leggings</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Rompers &amp; Jumpsuits</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Shirts &amp; Blouses</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Shirts</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Sweaters &amp; Knits</Link>
-                            </li>
-                          </ul>
-                        </li>
-                        {/*<!-- Single Item -->*/}
-                        <li data-toggle="collapse" data-target="#shoes" className="collapsed">
-                          <Link to="#">shoes</Link>
-                          <ul className="sub-menu collapse" id="shoes">
-                            <li>
-                              <Link to="#">All</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Bodysuits</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Dresses</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Hoodies &amp; Sweats</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Jackets &amp; Coats</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Jeans</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Pants &amp; Leggings</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Rompers &amp; Jumpsuits</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Shirts &amp; Blouses</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Shirts</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Sweaters &amp; Knits</Link>
-                            </li>
-                          </ul>
-                        </li>
-                        {/*<!-- Single Item -->*/}
-                        <li data-toggle="collapse" data-target="#accessories" className="collapsed">
-                          <Link to="#">accessories</Link>
-                          <ul className="sub-menu collapse" id="accessories">
-                            <li>
-                              <Link to="#">All</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Bodysuits</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Dresses</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Hoodies &amp; Sweats</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Jackets &amp; Coats</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Jeans</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Pants &amp; Leggings</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Rompers &amp; Jumpsuits</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Shirts &amp; Blouses</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Shirts</Link>
-                            </li>
-                            <li>
-                              <Link to="#">Sweaters &amp; Knits</Link>
-                            </li>
-                          </ul>
-                        </li>
+                        {/************************
+                                CATEGORIES 
+                        ************************/}
+                        {CategoryMap}
                       </ul>
                     </div>
                   </div>
@@ -413,11 +361,14 @@ class ProductContainer extends Component {
 
 const mapStateToProps = state => ({
   products: state.product.products,
+  favProducts: state.favourites.favouriteProducts,
   currentPage: state.product.page,
-  count: state.product.count
+  count: state.product.count,
+  user: state.user.user,
+  categories: state.categories.categories
 });
 
 export default connect(
   mapStateToProps,
-  { getProducts, changePagination }
+  { getProducts, changePagination, getFavourites, getCategories }
 )(ProductContainer);

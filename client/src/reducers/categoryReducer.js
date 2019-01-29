@@ -1,16 +1,13 @@
 const initialState = {
-  favouriteProducts: {},
-  page: 1,
-  count: 0
+  categories: {}
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case 'GET_FAVOURITES':
+    case 'GET_CATEGORIES':
       return {
         ...state,
-        favouriteProducts: action.favProducts,
-        count: action.count
+        categories: action.categories
       };
 
     default:

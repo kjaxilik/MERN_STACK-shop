@@ -39,7 +39,7 @@ router.delete('/del', (req, res) => {
 });
 
 router.get('/all/:user/:page', (req, res) => {
-  let popilateQuery = [
+  let populateQuery = [
     {
       path: 'product',
       populate: {
@@ -51,15 +51,13 @@ router.get('/all/:user/:page', (req, res) => {
   Favourites.find({ user: req.params.user })
     .skip((req.params.page - 1) * 6)
     .limit(6)
-    .populate(popilateQuery)
+    .populate(populateQuery)
     .then(favourites => {
       Favourites.count({ user: req.params.user }).then(count => {
         res
           .status(200)
           .send({ favourites, count })
-          .catch(err => {
-            res.status(500).send({ message: err.message });
-          });
+          .catch();
       });
     })
     .catch(err => {

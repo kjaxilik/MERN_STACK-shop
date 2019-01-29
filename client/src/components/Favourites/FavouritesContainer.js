@@ -59,10 +59,7 @@ class FavouritesContainer extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (
-      (newProps.user && newProps.products.length === 0) ||
-      newProps.products.length === undefined
-    ) {
+    if ((newProps.user && newProps.products.length === 0) || newProps.products === undefined) {
       this.props.getFavourites(newProps.user._id, 1);
     }
 
