@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
+var validateUserEdit = require('../validation/userEditValidator');
 
 var validateRegister = require('../validation/registration');
 var validateLogin = require('../validation/login');
@@ -64,7 +65,7 @@ router.post('/login', function(req, res, next) {
       return res.status(401).send(validation);
     }
 
-    req.logIn(user, function() {
+    req.login(user, function() {
       res.cookie('user', JSON.stringify(user._id));
       return res.status(200).send(user);
     });
@@ -92,17 +93,20 @@ router.get('/:id', (req, res) => {
 });
 
 router.put('/edit', (req, res) => {
+  var validation = validateUserEdit(req.body.name, req.body.email);
+
+  if (!validation.isValid) {
+    return res.status(400).send(validation.errors);
+  }
   //User.findById(req.body._id) // для проверки через Postman берет _id из PUT запроса
-  User.findById(req.user._id) // req.user._id - записан через passport
+  User.findById(req.user._id) // req.user._id - записан через passport но нам нужен id из реквеста - body
     .then(user => {
-      user.password = req.body.password;
       user.name = req.body.name;
+      user.email = req.body.email;
       user.address = req.body.address;
       user.phone = req.body.phone;
-      user.email = req.body.email;
       user.birthDate = req.body.birthDate;
       user.rating = req.body.rating;
-      user.photo = req.body.photo;
 
       user
         .save() // для сохранения изменения в юзере
@@ -114,7 +118,6 @@ router.put('/edit', (req, res) => {
         });
     })
     .catch(err => {
-      console.log(err.message);
       res.status(500).send(err);
     });
 });

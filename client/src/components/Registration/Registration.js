@@ -6,6 +6,10 @@ import { connect } from 'react-redux';
 import { registrate } from '../../actions/userActions';
 
 import InputField from '../common/InputField';
+const Style = {
+  marginTop: `50%`,
+  marginBottom: `50%`
+};
 
 class Registration extends Component {
   constructor() {
@@ -49,7 +53,7 @@ class Registration extends Component {
       <div className="container mt-5">
         <div className="row">
           <div className="col-md-6 m-auto">
-            <form onSubmit={this.formSubmitted}>
+            <form onSubmit={this.formSubmitted} style={Style}>
               <InputField
                 placeholder="Login"
                 type="text"
@@ -93,6 +97,9 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
+// mapStateToProps - то что надо из общего стейта
+// { registrate } - action - для изменения стейта
+// (Registration) - сам компонент отправляет в стейт
 export default connect(
   mapStateToProps,
   { registrate }

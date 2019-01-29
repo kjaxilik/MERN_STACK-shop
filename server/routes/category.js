@@ -3,13 +3,40 @@ var router = express.Router();
 
 var Category = require('../models/Category');
 
-router.get('/create/:name', (req, res)=>{
-    new Category({
-        name: req.params.name,
-        description: ""
-    }).save((err, category)=>{
+router.post('/add', (req, res) => {
+  let category = new Category({
+    name: req.body.name,
+    description: req.body.description
+  });
 
-    });
+  if (req.body.parent) {
+    category.parent = req.body.parent;
+  }
+
+  category
+    .save()
+    .then(newCategory => {
+      res.status(200).send(newCategory);
+    })
+    .catch();
+});
+
+router.get('/all', (req, res) => {
+  Category.find({})
+    .populate('parent')
+    .then(categories => {
+      res.status(200).send(categories);
+    })
+    .catch();
+});
+
+router.get('/id/:id', (req, res) => {
+  Category.findById(req.params.id)
+    .populate('parent')
+    .then(cat => {
+      res.status(200).send(cat);
+    })
+    .catch();
 });
 
 module.exports = router;

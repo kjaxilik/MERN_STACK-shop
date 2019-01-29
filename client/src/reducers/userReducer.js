@@ -15,7 +15,7 @@ export default function(state = initialState, action) {
         ...state,
         user: action.user
       };
-    case 'UPDATE_USER':
+    case 'EDIT_USER':
       return {
         ...state,
         user: action.user
